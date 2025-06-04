@@ -7,3 +7,4 @@ target "validacion" {
   dockerfile = "Dockerfile"
   tags = ["mjtaehyung/sitio002:latest"]
 }
+git push origin main
