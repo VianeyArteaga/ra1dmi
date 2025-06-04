@@ -1,10 +1,9 @@
 group "default" {
-  targets = ["validacion"]
+  targets = ["sitio002"]
 }
 
-target "validacion" {
+target "sitio002" {
   context = "."
   dockerfile = "Dockerfile"
   tags = ["mjtaehyung/sitio002:latest"]
 }
-git push origin main
