@@ -395,18 +395,43 @@
         <div id="resultado-busqueda"></div>
         <button id="mostrar-mas" style="display: none;">Mostrar más</button>
     </header>
+<div class="contact-section" id="contactanos">
+  <h2>Contáctanos</h2>
+  <form action="/enviar-correo" method="POST">
+  <input type="text" name="nombre" />
+  <input type="email" name="correo" />
+  <textarea name="mensaje"></textarea>
+  <button type="submit">Enviar</button>
+</form>
+
 </div>
-    <!-- Sección de Contacto -->
-    <div class="contact-section fade-in" id="contactanos">
-        <h2>Contáctanos</h2>
-        <form action="http://localhost:3000/enviar-correo" method="POST">
-            <input type="text" name="nombre" placeholder="Tu Nombre" required>
-            <input type="email" name="correo" placeholder="Tu Correo" required>
-            <textarea name="mensaje" placeholder="Tu Mensaje" rows="5" required></textarea>
-            <button type="submit">Enviar Mensaje</button>
-        </form>
-        
-    </div>
+
+<script>
+  document.getElementById('form-contacto').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const data = {
+      nombre: formData.get('nombre'),
+      correo: formData.get('correo'),
+      mensaje: formData.get('mensaje')
+    };
+
+    try {
+      const res = await fetch('/api/mensajes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+      alert(result.mensaje);
+      e.target.reset();
+    } catch (err) {
+      alert('Error al enviar el mensaje');
+    }
+  });
+</script>
 
     <script>
 
@@ -480,6 +505,29 @@
         mostrarMas.addEventListener("click", () => {
             page++;
             buscarImagenes();
+        });
+    </script>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in');
+
+            const appearOptions = {
+                threshold: 0.3,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('appear');
+                    observer.unobserve(entry.target);
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
         });
     </script>
 
